@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% include 'header.html' %}
+
+{% block content %}
+
+<div class = "container">
+    <div class = "row">
+        <div class="col md-12">
+            <div class = "jumbotron p-3">
+               <h2><b>Manage Product </b>  <button type="button"  class="btn btn-success float-right"
+                data-toggle="modal" data-target="#mymodal">Add New Product</button> </h2>
+
+                {% with messages  = get_flashed_messages() %}
+
+                   {% if messages %}
+                       {% for message in messages %}
+                            <div class="alert alert-success alert-dismissable" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="close">
+
+                                    <span aria-hidden="true">x</span>
+                                </button>
+                                {{message }}
+
+                            </div>
+                       {% endfor %}
+                    {% endif %}
+
+                {% endwith %}
+
+                <table class="table table-hover table-dark">
+                    <tr>
+                        <th>SINo</th>
+                        <th>date</th>
+                        <th>Movement_Id</th>
+                        <th>Prodect_Id</th>
+                        <th>quantity</th>
+                        <th>From_Location</th>
+                        <th>To_Location</th>
+                        <th>Action</th>
+                    </tr>
+
+                    {% for row in all_data %}
+                    <tr>
+                        <td>{{row.SINo}}</td>
+                        <td>{{row.date}}</td>
+                        <td>{{row.Movement_Id}}</td>
+                        <td>{{row.Prodect_Id}}</td>
+                        <td>{{row.quantity}}</td>
+                        <td>{{row.From_Location}}</td>
+                        <td>{{row.To_Location}}</td>
+
+                        <td>
+                            <a href = "/update/{{row.SINo}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.SINo}}">Edit</a>
+                             <a href = "/delete/{{row.SINo}}" class="btn btn-danger btn-xs" onclick="return confirm ('Are you sure you want to Delete ?')">Delete</a>
+                        </td>
+                    </tr>
+
+                <!-- Edit Modal -->
+
+                    <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title">Update Information</h4>
+         </div>
+         <div class="modal-body">
+            <form action="{{url_for('update')}}" method="POST">
+
+               <div class="form-group">
+                    <label>SINo:</label>
+                    <input type="text" class="form-control" name="SINo" value="{{row.SINo}}">
+                </div>
+              
+                <div class="form-group">
+                    <label>Movement_Id:</label>
+                    <input type="text" class="form-control" name="Movement_Id" value="{{row.Movement_Id}}">
+                </div>
+
+                <div class="form-group">
+                    <label>Prodect_Id:</label>
+                    <input type="text" class="form-control" name="Prodect_Id"value="{{row.Prodect_Id}}">
+                </div>
+
+                <div class="form-group">
+                    <label>quantity:</label>
+                    <input type="text" class="form-control" name="quantity"value="{{row.quantity}}">
+                </div>
+
+                <div class="form-group">             
+                    <label>From_Location:</label>
+                    <input type="text" class="form-control" name="From_Location"value="{{row.From_Location}}">
+                </div>
+
+                <div class="form-group">               
+                    <label>To_Location:</label>
+                    <input type="text" class="form-control" name="To_Location"value="{{row.To_Location}}">
+                </div>
+
+               <div class="form-group">
+                  <button class="btn btn-primary" type="submit">Update</button>
+               </div>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+                    {% endfor %}
+                </table>
+            </div>
+
+                <!-- Open Modal Box (Add Student)-->
+
+                <div id = "mymodal" class = "modal fade" role="dialog">
+                    <div class = "modal-dialog">
+                        <div class="modal-content">
+                            <div class = "modal-header">
+                                <h4 class = "modal-title">Add Student</h4>
+                            </div>
+
+                            <div class = "modal-body">
+                                <form action = "{{url_for('insert')}}" method="POST">
+                                    <div class="form-group">
+                                        <label>SINo:</label>
+                                        <input type="text" class="form-control" name="SINo" required = "True">
+                                    </div>
+                                  
+                                    <div class="form-group">
+                                        <label>Movement_Id:</label>
+                                        <input type="text" class="form-control" name="Movement_Id" required = "True">
+                                    </div>
+                    
+                                    <div class="form-group">
+                                        <label>Prodect_Id:</label>
+                                        <input type="text" class="form-control" name="Prodect_Id"required = "True">
+                                    </div>
+                    
+                                    <div class="form-group">
+                                        <label>quantity:</label>
+                                        <input type="text" class="form-control" name="quantity"required = "True">
+                                    </div>
+                    
+                                    <div class="form-group">             
+                                        <label>From_Location:</label>
+                                        <input type="text" class="form-control" name="From_Location"required = "True">
+                                    </div>
+                    
+                                    <div class="form-group">               
+                                        <label>To_Location:</label>
+                                        <input type="text" class="form-control" name="To_Location"required = "True">
+                                    </div>
+
+                                    
+
+                                    <div class = "form-group">
+                                        <button class="btn btn-primary" type = "submit" name="phone">Add new Product</button>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
